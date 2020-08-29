@@ -1,11 +1,11 @@
 {
-  "name": "gobstones-cli",
-  "version": "5.0.0",
+  "name": "mumuki-gobstones-cli",
+  "version": "0.0.1",
   "description": "CLI for Gobstones",
   "main": "src/cli.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gobstones/gobstones-cli.git"
+    "url": "git+https://github.com/mumuki/gobstones-cli.git"
   },
   "bin": {
     "gobstones-cli": "bin/gobstones-cli"
