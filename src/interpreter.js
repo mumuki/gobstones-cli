@@ -1,6 +1,7 @@
 var globalOptions = require("./config").getConfig().options;
 var GobstonesInterpreterApi = require("gobstones-interpreter").GobstonesInterpreterAPI;
 var _ = require("lodash");
+var Locale = require("./intl").Locale;
 
 var interpreter = function() {
   var gobstonesApi = new GobstonesInterpreterApi();
@@ -9,8 +10,10 @@ var interpreter = function() {
   if (_.isFinite(timeout))
     gobstonesApi.config.setInfiniteLoopTimeout(timeout);
 
-  if (globalOptions.language)
-    gobstonesApi.config.setLanguage(globalOptions.language);
+  if (globalOptions.language) {
+    var locale = new Locale(globalOptions.language);
+    gobstonesApi.config.setLanguage(locale.language);
+  }
 
   return gobstonesApi;
 };

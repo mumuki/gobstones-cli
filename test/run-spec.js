@@ -639,6 +639,11 @@ describe("run", function() {
       output[0].status.should.eql("passed");
     });
 
+    it("batch works as expected with a language with region", function() {
+      var output = exec("", "--format gbb --language es-CL --batch " + __dirname + "/fixture/batch-basic.json");
+      output[0].status.should.eql("passed");
+    });
+
     it("batch fails with an incorrect language", function() {
       var output = exec("", "--format gbb --language xd --batch " + __dirname + "/fixture/batch-basic.json");
       output.status.should.eql("all_is_broken_error");
