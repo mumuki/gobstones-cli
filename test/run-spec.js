@@ -634,6 +634,13 @@ describe("run", function() {
       output[0].result.finalBoard.table.json[1][0].green.should.equal(2);
     });
 
+    it("can accept Blockly's XML in code and GBS in extraCode", function() {
+      var output = exec("", "--format gbb --batch " + __dirname + "/fixture/batch-mixed-xml-gbs.json");
+
+      output[0].status.should.eql("passed");
+      output[0].result.finalBoard.table.json[1][0].green.should.equal(2);
+    });
+
     it("batch works as expected with a correct language", function() {
       var output = exec("", "--format gbb --language es --batch " + __dirname + "/fixture/batch-basic.json");
       output[0].status.should.eql("passed");

@@ -1,0 +1,10 @@
+{
+  "code": "<xml xmlns=\"http://www.w3.org/1999/xhtml\"><variables></variables><block type=\"Program\" id=\"69RjPEx+lYh5#(/.1iAc\" deletable=\"false\" x=\"30\" y=\"30\"><mutation timestamp=\"1521830269440\"></mutation><statement name=\"program\"><block type=\"PonerDos_Ya\" id=\"kAno|xG?^O4,I/N0j-uw\"><value name=\"arg1\"><block type=\"ColorSelector\" id=\"|U7%iiLas*dyXBW#$_KE\"><field name=\"ColorDropdown\">Verde</field></block></value></block></statement></block></xml>",
+  "extraCode": "procedure PonerDos_Ya(color) { Poner(color) Poner(color) }",
+  "examples": [
+    {
+      "initialBoard": "GBB/1.0\nsize 2 2\ncell 0 0 Azul 0 Negro 0 Rojo 1 Verde 0\nhead 0 0",
+      "extraBoard": "GBB/1.0\nsize 1 1\nhead 0 0"
+    }
+  ]
+}
