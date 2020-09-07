@@ -5,6 +5,7 @@ var blocklyCompiler = require("./blockly/blocklyCompiler");
 var safeRun = require("./safe-run");
 var fs = require("fs");
 var _ = require("lodash");
+const async = require("async");
 
 module.exports = {
   "ast": function(config) {
@@ -23,9 +24,8 @@ module.exports = {
     var json = getFile(config.options.batch);
     var batch = getBatch(json);
     var code = _.trim(batch.code || "");
-    var extraCode = _.trim(batch.extraCode || "");
 
-    withCode(function(extraCode) {
+    withExtraCode(function(extraCode) {
       var teacherActions = interpreter.getActions(extraCode);
 
       withCode(function(code) {
@@ -35,7 +35,7 @@ module.exports = {
 
         Batch.process(batch.examples, code, extraCode, mulangAst);
       }, code, teacherActions);
-    }, extraCode);
+    }, batch.extraCode);
   },
 
   "run": function(config) {
@@ -64,6 +64,26 @@ module.exports = {
     options.showHelp();
   }
 };
+
+const withExtraCode = function(action, extraCode) {
+  if (_.isNil(extraCode)) {
+    action("");
+    return;
+  }
+
+  if (_.isString(extraCode)) {
+    withCode((compiledCode) => action(compiledCode.trim()), extraCode);
+    return;
+  }
+
+  // We transform the callbacks to Node-stlye because async library expects them that way.
+  async.concat(extraCode, withCodeNodeStyle, (error, compiledCodes) =>
+    action(compiledCodes.join("\n").trim())
+  );
+}
+
+const withCodeNodeStyle = (code, action) =>
+  withCode(compiledCode => action(null, compiledCode), code);
 
 var readCode = function(code) {
   if (code != null) return code;
