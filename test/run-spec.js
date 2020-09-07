@@ -634,6 +634,29 @@ describe("run", function() {
       output[0].result.finalBoard.table.json[1][0].green.should.equal(2);
     });
 
+    it("can accept Blockly's XML in code and GBS in extraCode", function() {
+      var output = exec("", "--format gbb --batch " + __dirname + "/fixture/batch-mixed-xml-gbs.json");
+
+      output[0].status.should.eql("passed");
+      output[0].result.finalBoard.table.json[1][0].green.should.equal(2);
+    });
+
+    it("can accept many extra codes, with both GBS and XML format", function() {
+      var output = exec("", "--format gbb --batch " + __dirname + "/fixture/batch-mumuki-game-framework.json");
+
+      output[0].status.should.eql("passed");
+
+      // FIXTURE:
+      // Board starts with no stones.
+      // The Before procedure adds 2 red stones.
+      // The Main procedure removes one, using a procedure defined in the Blockly-format extra code.
+      // The After procedure adds 1 green stone.
+
+      const board = output[0].result.finalBoard.table.json[1][0];
+      board.red.should.equal(1);
+      board.green.should.equal(1);
+    });
+
     it("batch works as expected with a correct language", function() {
       var output = exec("", "--format gbb --language es --batch " + __dirname + "/fixture/batch-basic.json");
       output[0].status.should.eql("passed");
@@ -649,10 +672,22 @@ describe("run", function() {
       output.status.should.eql("all_is_broken_error");
     });
 
-    it("batch doesn't work if incomplete", function() {
-      var output = exec("", "--format gbb --language es --batch " + __dirname + "/fixture/batch-incomplete.json");
+    it("batch doesn't work if code missing", function() {
+      var output = exec("", "--format gbb --language es --batch " + __dirname + "/fixture/batch-without-code.json");
       output.status.should.eql("batch_error");
       output.result.should.eql("`code` should be a string.");
+    });
+
+    it("batch doesn't work if extra code is neither a string nor an array of strings", function() {
+      var output = exec("", "--format gbb --language es --batch " + __dirname + "/fixture/batch-invalid-extra-code.json");
+      output.status.should.eql("batch_error");
+      output.result.should.eql("`extraCode` should be a string or an array of strings.");
+    });
+
+    it("batch doesn't work if extra code is an array but some elements are not a string", function() {
+      var output = exec("", "--format gbb --language es --batch " + __dirname + "/fixture/batch-invalid-extra-code-array.json");
+      output.status.should.eql("batch_error");
+      output.result.should.eql("`extraCode` should be a string or an array of strings.");
     });
 
     it("batch works with long program", function() {
