@@ -98,6 +98,8 @@ var getFile = function(fileName) {
   }
 };
 
+const isArrayOfStrings = (object) => _.isArray(object) && _.every(object, _.isString);
+
 var getBatch = function(json) {
   var crash = function(error) {
     reporter.report({
@@ -116,8 +118,8 @@ var getBatch = function(json) {
 
   if (!_.isString(batch.code))
     crash("`code` should be a string.");
-  if (batch.extraCode != null && !_.isString(batch.extraCode))
-    crash("`extraCode` should be a string.");
+  if (batch.extraCode != null && !_.isString(batch.extraCode) && !isArrayOfStrings(batch.extraCode))
+    crash("`extraCode` should be a string or an array of strings.");
   if (!_.isArray(batch.examples))
     crash("`examples` should be an array.");
 

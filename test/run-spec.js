@@ -656,10 +656,22 @@ describe("run", function() {
       output.status.should.eql("all_is_broken_error");
     });
 
-    it("batch doesn't work if incomplete", function() {
-      var output = exec("", "--format gbb --language es --batch " + __dirname + "/fixture/batch-incomplete.json");
+    it("batch doesn't work if code missing", function() {
+      var output = exec("", "--format gbb --language es --batch " + __dirname + "/fixture/batch-without-code.json");
       output.status.should.eql("batch_error");
       output.result.should.eql("`code` should be a string.");
+    });
+
+    it("batch doesn't work if extra code is neither a string nor an array of strings", function() {
+      var output = exec("", "--format gbb --language es --batch " + __dirname + "/fixture/batch-invalid-extra-code.json");
+      output.status.should.eql("batch_error");
+      output.result.should.eql("`extraCode` should be a string or an array of strings.");
+    });
+
+    it("batch doesn't work if extra code is an array but some elements are not a string", function() {
+      var output = exec("", "--format gbb --language es --batch " + __dirname + "/fixture/batch-invalid-extra-code-array.json");
+      output.status.should.eql("batch_error");
+      output.result.should.eql("`extraCode` should be a string or an array of strings.");
     });
 
     it("batch works with long program", function() {
