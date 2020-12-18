@@ -1,0 +1,19 @@
+name: Test and deploy
+
+on:
+- push
+- workflow_dispatch
+
+jobs:
+  test_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JavaScript
+      uses: actions/setup-node@v1
+      with:
+        node-version: 6.10.x
+    - name: Install JavaScript dependencies
+      run: npm install
+    - name: Run JavaScript tests
+      run: npm test
