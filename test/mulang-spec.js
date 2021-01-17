@@ -7,6 +7,7 @@ var mulang = require("../src/mulang");
 var s = mulang.s;
 var callable = mulang.callable;
 var reference = mulang.reference;
+var primitive = mulang.primitive;
 
 function program(body) {
   return entryPoint("program", body);
@@ -141,7 +142,7 @@ describe("gobstones - mulang", function() {
     var code = gbs("program{x:= z && y}");
 
     code.should.eql(
-      program(s("Assignment", ["x", s("Application", [reference("&&"), [reference("z"), reference("y")]])]))
+      program(s("Assignment", ["x", s("Application", [primitive("And"), [reference("z"), reference("y")]])]))
     );
   });
 
@@ -149,7 +150,29 @@ describe("gobstones - mulang", function() {
     var code = gbs("program{x:= not z}");
 
     code.should.eql(
-      program(s("Assignment", ["x", s("Application", [reference("not"), [reference("z")]])]))
+      program(s("Assignment", ["x", s("Application", [primitive("Negation"), [reference("z")]])]))
+    );
+  });
+
+  it("translates >=", function() {
+    var code = gbs("program{x:= m >= z}");
+    code.should.eql(
+      program(s("Assignment", ["x", s("Application", [primitive("GreatherOrEqualThan"), [reference("m"), reference("z")]])]))
+    );
+  });
+
+  it("translates <=", function() {
+    var code = gbs("program{x:= m <= z}");
+    code.should.eql(
+      program(s("Assignment", ["x", s("Application", [primitive("LessOrEqualThan"), [reference("m"), reference("z")]])]))
+    );
+  });
+
+  it("translates +", function() {
+    var code = gbs("program{x:= m + z}");
+
+    code.should.eql(
+      program(s("Assignment", ["x", s("Application", [primitive("Plus"), [reference("m"), reference("z")]])]))
     );
   });
 
@@ -161,9 +184,9 @@ describe("gobstones - mulang", function() {
         s("Assignment", [
           "x",
           s("Application", [
-            reference("&&"), [
-              s("Application", [s("Equal"),    [s("MuBool", true), s("MuNumber", 2.0)]]),
-              s("Application", [s("NotEqual"), [reference("x"), reference("t")]])
+            primitive("And"), [
+              s("Application", [primitive("Equal"),    [s("MuBool", true), s("MuNumber", 2.0)]]),
+              s("Application", [primitive("NotEqual"), [reference("x"), reference("t")]])
             ]])]))
     );
   });
