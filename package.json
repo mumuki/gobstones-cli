@@ -20,7 +20,8 @@
     "node-getopt": "^0.2.3",
     "node-jsdom": "^3.1.5",
     "proceds-blockly": "git://github.com/Program-AR/proceds-blockly.git#0.1.12",
-    "xmlshim": "^0.2.3"
+    "xmlshim": "^0.2.3",
+    "libxmljs": "0.19.7"
   },
   "devDependencies": {
     "chai": "^3.5.0",

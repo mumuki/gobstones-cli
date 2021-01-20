@@ -190,9 +190,31 @@ function parseValue(string) {
 
   switch (value) {
     case "==":
-      return s("Equal")
+      return primitive("Equal")
     case "/=":
-      return s("NotEqual")
+      return primitive("NotEqual")
+    case "+":
+      return primitive("Plus")
+    case "-":
+      return primitive("Minus")
+    case "*":
+      return primitive("Multiply")
+    case "/":
+      return primitive("Minus")
+    case "not":
+      return primitive("Negation")
+    case "&&":
+      return primitive("And")
+    case "||":
+      return primitive("Or")
+    case ">=":
+      return primitive("GreatherOrEqualThan")
+    case ">":
+      return primitive("GreatherThan")
+    case "<=":
+      return primitive("LessOrEqualThan")
+    case "<":
+      return primitive("LessThan")
     default:
       return reference(value);
   }
@@ -223,6 +245,10 @@ function reference(name) {
   return s("Reference", name);
 }
 
+function primitive(name) {
+  return s("Primitive", name);
+}
+
 //-------------
 //-- Exports --
 //-------------
@@ -231,5 +257,6 @@ module.exports = {
   parse: parse,
   s: s,
   callable: callable,
-  reference: reference
+  reference: reference,
+  primitive: primitive
 };
