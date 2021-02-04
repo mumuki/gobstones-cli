@@ -16,12 +16,13 @@
     "async": "^2.6.0",
     "gobstones-interpreter": "^2.0",
     "gs-element-blockly": "git://github.com/Program-AR/gs-element-blockly.git#0.24.0",
+    "libxmljs": "0.19.7",
     "lodash": "^4.17.2",
+    "nexe": "^4.0.0-beta.17",
     "node-getopt": "^0.2.3",
     "node-jsdom": "^3.1.5",
     "proceds-blockly": "git://github.com/Program-AR/proceds-blockly.git#0.1.12",
-    "xmlshim": "^0.2.3",
-    "libxmljs": "0.19.7"
+    "xmlshim": "^0.2.3"
   },
   "devDependencies": {
     "chai": "^3.5.0",
@@ -29,6 +30,7 @@
     "should": "^11.1.2"
   },
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha ./test/*-spec.js"
+    "test": "./node_modules/mocha/bin/mocha ./test/*-spec.js",
+    "nexe": "./node_modules/nexe/index.js src/index.js -o gobstones-cli"
   }
 }
